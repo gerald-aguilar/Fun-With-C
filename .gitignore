@@ -50,3 +50,5 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+Multithreading/.vscode/c_cpp_properties.json
+Multithreading/mutex-example
