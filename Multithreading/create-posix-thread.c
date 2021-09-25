@@ -32,7 +32,7 @@ void start_servers(void)
         server,
         &increment);
 
-    //tells the program to allow the thread process to terminate.
+    //tells the program to allow the thread processes to terminate before continuing.
     pthread_join(threadOne, NULL);
     pthread_join(threadTwo, NULL);
 }
