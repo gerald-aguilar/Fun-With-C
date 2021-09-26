@@ -34,7 +34,7 @@ void *processTwo(void *arg)
     pthread_mutex_lock(&mtx);
 
     //wait for process one to complete
-    while (flag != 1)
+    if (flag != 1)
     {
         pthread_cond_wait(&cnd, &mtx);
     }
