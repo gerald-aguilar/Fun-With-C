@@ -54,3 +54,4 @@ Multithreading/.vscode/c_cpp_properties.json
 Multithreading/mutex-example
 Multithreading/.vscode/launch.json
 .gitignore
+Multithreading/.vscode/tasks.json
