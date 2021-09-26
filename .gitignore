@@ -52,3 +52,5 @@ Mkfile.old
 dkms.conf
 Multithreading/.vscode/c_cpp_properties.json
 Multithreading/mutex-example
+Multithreading/.vscode/launch.json
+.gitignore
