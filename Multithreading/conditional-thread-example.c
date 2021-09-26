@@ -7,7 +7,7 @@ int numLoops = 3;
 int flag = 0;
 //mutex
 pthread_mutex_t mtx = PTHREAD_MUTEX_INITIALIZER;
-pthread_cond_t cnd;
+pthread_cond_t cnd = PTHREAD_COND_INITIALIZER;
 
 void *processOne(void *arg)
 {
@@ -34,7 +34,7 @@ void *processTwo(void *arg)
     pthread_mutex_lock(&mtx);
 
     //wait for process one to complete
-    if (flag != 1)
+    if (flag == 0)
     {
         pthread_cond_wait(&cnd, &mtx);
     }
@@ -48,6 +48,10 @@ void *processTwo(void *arg)
 int main()
 {
     pthread_t threadIdentifier;
+    pthread_t threadTwo;
+
+    //thread two
+    pthread_create(&threadTwo, 0, processTwo, NULL);
 
     //create threads for process one
     for (int i = 0; i < numLoops; i++)
@@ -56,10 +60,7 @@ int main()
         pthread_join(threadIdentifier, 0);
     }
 
-    //thread two
-    pthread_create(&threadIdentifier, 0, processTwo, NULL);
-
-    pthread_join(threadIdentifier, 0);
+    pthread_join(threadTwo, 0);
 
     return 0;
 }
