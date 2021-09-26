@@ -34,6 +34,7 @@ void *processTwo(void *arg)
     pthread_mutex_lock(&mtx);
 
     //wait for process one to complete
+    //TODO: maybe this needs to be a while loop. Not really sure.
     if (flag == 0)
     {
         pthread_cond_wait(&cnd, &mtx);
@@ -47,7 +48,7 @@ void *processTwo(void *arg)
 
 int main()
 {
-    pthread_t threadIdentifier;
+    pthread_t threadOne;
     pthread_t threadTwo;
 
     //thread two
@@ -56,8 +57,8 @@ int main()
     //create threads for process one
     for (int i = 0; i < numLoops; i++)
     {
-        pthread_create(&threadIdentifier, 0, processOne, &i);
-        pthread_join(threadIdentifier, 0);
+        pthread_create(&threadOne, 0, processOne, &i);
+        pthread_join(threadOne, 0);
     }
 
     pthread_join(threadTwo, 0);
