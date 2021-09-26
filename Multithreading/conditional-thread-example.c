@@ -53,10 +53,11 @@ int main()
     for (int i = 0; i < numLoops; i++)
     {
         pthread_create(&threadIdentifier, 0, processOne, &i);
+        pthread_join(threadIdentifier, 0);
     }
 
     //thread two
-    //pthread_create(&threadIdentifier, 0, processTwo, NULL);
+    pthread_create(&threadIdentifier, 0, processTwo, NULL);
 
     pthread_join(threadIdentifier, 0);
 
