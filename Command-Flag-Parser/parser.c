@@ -2,9 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-//global
-int missingParameter = 0;
-
 void parameterCheck(char *flag, char *flagCheck, int *i, int argc, char *argv[], int *setVariable)
 {
     if (strcmp(flag, flagCheck) == 0 && *setVariable == 0)
@@ -13,10 +10,10 @@ void parameterCheck(char *flag, char *flagCheck, int *i, int argc, char *argv[],
         if (*i + 1 < argc)
         {
             (*i)++;
-            int lambda = atoi(argv[*i]);
+            double val = atof(argv[*i]);
             *setVariable = *setVariable + 1;
 
-            printf("user called %s with input %d\n", flagCheck, lambda);
+            printf("user called %s with input %.2f\n", flagCheck, val);
         }
         else
         {
@@ -24,12 +21,14 @@ void parameterCheck(char *flag, char *flagCheck, int *i, int argc, char *argv[],
             exit(1);
         }
     }
-    else if (*setVariable == 1)
+    else if (strcmp(flag, flagCheck) == 0 && *setVariable == 1)
     {
         fprintf(stderr, "Duplicate option flag: %s\n", flag);
+        exit(1);
     }
     else
     {
+
         fprintf(stderr, "Unknown option: %s\n", flag);
         exit(1);
     }
@@ -43,12 +42,30 @@ int main(int argc, char *argv[])
     for (int i = 1; i < argc; i++)
     {
         char *flag = argv[i];
-        parameterCheck(flag, "-lambda", &i, argc, argv, &lambdaSet);
-        parameterCheck(flag, "-mu", &i, argc, argv, &muSet);
-        parameterCheck(flag, "-r", &i, argc, argv, &rSet);
-        parameterCheck(flag, "-B", &i, argc, argv, &bSet);
-        parameterCheck(flag, "-P", &i, argc, argv, &pSet);
-        //parameterCheck(flag, &i, argc, argv, &tSet);
+        if (strcmp(flag, "-lambda") == 0)
+        {
+            parameterCheck(flag, "-lambda", &i, argc, argv, &lambdaSet);
+        }
+        else if (strcmp(flag, "-mu") == 0)
+        {
+            parameterCheck(flag, "-mu", &i, argc, argv, &muSet);
+        }
+        else if (strcmp(flag, "-r") == 0)
+        {
+            parameterCheck(flag, "-r", &i, argc, argv, &rSet);
+        }
+        else if (strcmp(flag, "-B") == 0)
+        {
+            parameterCheck(flag, "-B", &i, argc, argv, &bSet);
+        }
+        else if (strcmp(flag, "-P") == 0)
+        {
+            parameterCheck(flag, "-P", &i, argc, argv, &pSet);
+        }
+        else
+        {
+            //tfile
+        }
     }
 
     return 0;
