@@ -2,7 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-void parameterCheck(char *flag, char *flagCheck, int *i, int argc, char *argv[], int *setVariable)
+//globals
+int lambdaSet = 0, muSet = 0, rSet = 0, bSet = 0, pSet = 0, nSet = 0, tSet = 0;
+
+void parameterCheckHelper(char *flag, char *flagCheck, int *i, int argc, char *argv[], int *setVariable)
 {
     if (strcmp(flag, flagCheck) == 0 && *setVariable == 0)
     {
@@ -34,39 +37,46 @@ void parameterCheck(char *flag, char *flagCheck, int *i, int argc, char *argv[],
     }
 }
 
-int main(int argc, char *argv[])
+void parameterCheck(int argc, char *argv[])
 {
-    printf("num args: %d\n", argc);
-
-    int lambdaSet = 0, muSet = 0, rSet = 0, bSet = 0, pSet = 0, nSet = 0, tSet = 0;
     for (int i = 1; i < argc; i++)
     {
         char *flag = argv[i];
         if (strcmp(flag, "-lambda") == 0)
         {
-            parameterCheck(flag, "-lambda", &i, argc, argv, &lambdaSet);
+            parameterCheckHelper(flag, "-lambda", &i, argc, argv, &lambdaSet);
         }
         else if (strcmp(flag, "-mu") == 0)
         {
-            parameterCheck(flag, "-mu", &i, argc, argv, &muSet);
+            parameterCheckHelper(flag, "-mu", &i, argc, argv, &muSet);
         }
         else if (strcmp(flag, "-r") == 0)
         {
-            parameterCheck(flag, "-r", &i, argc, argv, &rSet);
+            parameterCheckHelper(flag, "-r", &i, argc, argv, &rSet);
         }
         else if (strcmp(flag, "-B") == 0)
         {
-            parameterCheck(flag, "-B", &i, argc, argv, &bSet);
+            parameterCheckHelper(flag, "-B", &i, argc, argv, &bSet);
         }
         else if (strcmp(flag, "-P") == 0)
         {
-            parameterCheck(flag, "-P", &i, argc, argv, &pSet);
+            parameterCheckHelper(flag, "-P", &i, argc, argv, &pSet);
         }
-        else
+        else if (strcmp(flag, "-t") == 0)
         {
             //tfile
         }
+        else
+        {
+            fprintf(stderr, "Commandline option error...\n");
+            exit(1);
+        }
     }
+}
+
+int main(int argc, char *argv[])
+{
+    parameterCheck(argc, argv);
 
     return 0;
 }
