@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
 
 //globals
 int lambdaSet = 0, muSet = 0, rSet = 0, bSet = 0, pSet = 0, nSet = 0, tSet = 0;
@@ -37,6 +38,29 @@ void parameterCheckHelper(char *flag, char *flagCheck, int *i, int argc, char *a
     }
 }
 
+void checkFilePath(int *i, int argc, char *argv[])
+{
+    struct stat checker;
+
+    if (*i + 1 < argc)
+    {
+        //move i
+        (*i)++;
+        if (stat(argv[*i + 1], &checker) == 0)
+        {
+            if (checker.st_mode == S_IFDIR || checker.st_mode != S_IFREG)
+            {
+                fprintf(stderr, "Provided path is not a file.\n");
+            }
+        }
+    }
+    else
+    {
+        fprintf(stderr, "Missing parameter following flag!\n");
+        exit(1);
+    }
+}
+
 void parameterCheck(int argc, char *argv[])
 {
     for (int i = 1; i < argc; i++)
@@ -65,6 +89,7 @@ void parameterCheck(int argc, char *argv[])
         else if (strcmp(flag, "-t") == 0)
         {
             //tfile
+            checkFilePath(&i, argc, argv);
         }
         else
         {
